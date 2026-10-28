@@ -16,9 +16,9 @@ Run again to install missing products and update older installed versions.
 --update selects installed products only (all supported products if none specified).
 HELP
 }
-mac_products='cad code files ftp remote ssh zip'
-linux_products='cad code etl files ftp geo mail remote rust ssh studio zip'
-all_products='cad code etl fast files ftp geo mail office remote rust ssh studio zip'
+mac_products='cad code etl files ftp geo mail remote ssh studio zip'
+linux_products='cad code etl files ftp geo mail remote ssh studio zip'
+all_products='cad code etl fast files ftp geo mail office remote ssh studio zip'
 contains() { case " $1 " in *" $2 "*) return 0 ;; *) return 1 ;; esac; }
 normalize() {
   value=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')
@@ -85,23 +85,31 @@ install_macos() {
   "$brew" tap whitecalvin/tastedev </dev/null
   "$brew" update --quiet </dev/null
   actions=
+  unavailable=0; available_count=0
   # Check the entire selection before starting an application installation.
   for product in $products; do
     token="whitecalvin/tastedev/tastedev-$product"
     action=install
     if "$brew" list --cask --versions "tastedev-$product" >/dev/null 2>&1; then
       outdated=$("$brew" outdated --cask --greedy --quiet "$token" </dev/null) || fail "Cannot check updates for $product."
-      if [ -z "$outdated" ]; then say "$product is already up to date; keeping the current app."; continue; fi
+      if [ -z "$outdated" ]; then say "$product is already up to date; keeping the current app."; available_count=$((available_count + 1)); continue; fi
       action=upgrade
     elif [ "$update_only" = true ]; then
       say "$product is not installed; skipping."
       continue
     fi
-    "$brew" info --cask "whitecalvin/tastedev/tastedev-$product" >/dev/null </dev/null ||
+    if ! "$brew" info --cask "whitecalvin/tastedev/tastedev-$product" >/dev/null </dev/null; then
+      if [ "$select_all" = true ]; then
+        say "$product has no accessible published Cask; skipping." >&2
+        unavailable=$((unavailable + 1)); continue
+      fi
       fail "No published Homebrew Cask for $product. No selected apps were installed."
+    fi
+    available_count=$((available_count + 1))
     assert_idle "$product"
     actions="$actions $action:$product"
   done
+  if [ "$unavailable" -gt 0 ] && [ "$available_count" = 0 ]; then fail 'No accessible published Casks in the selection.'; fi
   for entry in $actions; do
     action=${entry%%:*}; product=${entry#*:}
     token="whitecalvin/tastedev/tastedev-$product"

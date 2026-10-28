@@ -9,7 +9,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
-$supportedProducts = @('cad','code','etl','files','ftp','geo','mail','remote','rust','ssh','studio','zip')
+$supportedProducts = @('cad','code','etl','files','ftp','geo','mail','remote','ssh','studio','zip')
 
 function Resolve-TasteDevProduct([string]$Name) {
     $id = $Name.ToLowerInvariant() -replace '^tastedev-', '' -replace '^taste', ''
