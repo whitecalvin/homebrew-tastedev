@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-zip" do
-  version "0.2.27"
-  sha256 "51f7d58bf8f766b78f45ca5d9c074c3c3b071491b3071bd55037a33de6138819"
+  version "0.2.28"
+  sha256 "ef66008496d008f48ee7d657601664fd770b6e6700cc7f0ecf69e8194e54f441"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/zip-v0.2.27/tastedev-zip-0.2.27-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/zip-v0.2.28/tastedev-zip-0.2.28-macos-arm64.dmg"
   name "TASTEZIP"
   desc "TASTEZIP desktop application"
   homepage "https://tastedev.net/products/zip"
