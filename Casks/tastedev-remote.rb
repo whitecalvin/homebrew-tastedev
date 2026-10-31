@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-remote" do
-  version "0.2.8"
-  sha256 "66f49d8157ec97ada3963ef7a0471a4c64457078390d95922911e5c8284a19c8"
+  version "0.2.9"
+  sha256 "ce96fd0a7ad1a02d8df21c1f3302d7759f8eee942b170988d613d5c3ea3bc290"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/remote-v0.2.8/tastedev-remote-0.2.8-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/remote-v0.2.9/tastedev-remote-0.2.9-macos-arm64.dmg"
   name "TASTEREMOTE"
   desc "TASTEREMOTE desktop application"
   homepage "https://tastedev.net/products/remote"
