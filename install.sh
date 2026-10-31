@@ -391,25 +391,6 @@ with open(lock_path,'a') as lock:
             atomic(stage/'files.json',json.dumps(inventory(payload),sort_keys=True)+'\n',0o600)
         else:
             os.replace(package,stage/app_name);(stage/app_name).chmod(0o700)
-            # The dock and app grid show this icon: the AppImage's top-level PNG, usually a link
-            # into usr/share/icons that is extracted in a second step.
-            try:
-                grab=pathlib.Path(tempfile.mkdtemp(prefix='.icon-',dir=work));squash=grab/'squashfs-root'
-                env={k:v for k,v in os.environ.items() if not k.startswith('APPIMAGE')}
-                def extract(pattern):subprocess.run([str(stage/app_name),'--appimage-extract',pattern],cwd=grab,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=120,check=True)
-                extract('*.png')
-                tops=sorted(squash.glob('*.png'))
-                if tops and tops[0].is_symlink():
-                    target=posixpath.normpath(os.readlink(tops[0]))
-                    if not re.fullmatch(r'usr/share/icons/[A-Za-z0-9_./-]+\.png',target) or '..' in target.split('/'):raise RuntimeError('icon link')
-                    extract(target);found=squash/target
-                elif tops:found=tops[0]
-                else:found=None
-                if found is not None and found.is_file() and not found.is_symlink() and found.stat().st_size<=8*1024**2:
-                    png=found.read_bytes()
-                    if png[:8]==b'\x89PNG\r\n\x1a\n':(stage/'icon.png').write_bytes(png);(stage/'icon.png').chmod(0o600)
-            except Exception:
-                pass
         atomic(stage/'receipt.json',json.dumps({'version':version,'sha256':sha,'url':url})+'\n',0o600)
         os.rename(stage,destination)
     idle(root)
@@ -425,10 +406,7 @@ with open(lock_path,'a') as lock:
     # Wrappers always point to current, so installing them does not run/replace an app.
     atomic(launcher,wrapper,0o700)
     escaped=str(launcher).replace('\\','\\\\').replace('"','\\"').replace('`','\\`').replace('$','\\$').replace('%','%%')
-    icon=current/'icon.png'
-    icon_line='Icon='+str(icon)+'\n' if (destination/'icon.png').is_file() and not any(c in str(icon) for c in '\r\n') else ''
-    wm_class='' if archive_product else 'StartupWMClass=com.gxsoft.tastedev.'+product+'\n'
-    atomic(desktop,'[Desktop Entry]\n# TASTEDEV personal installer\nType=Application\nName='+brand+'\nExec="'+escaped+'"\n'+icon_line+wm_class+'Terminal='+('true' if product in ('geo','mail') else 'false')+'\nCategories=Utility;\n',0o600)
+    atomic(desktop,'[Desktop Entry]\n# TASTEDEV personal installer\nType=Application\nName='+brand+'\nExec="'+escaped+'"\nTerminal='+('true' if product in ('geo','mail') else 'false')+'\nCategories=Utility;\n',0o600)
     next_link=root/('.current-'+uuid.uuid4().hex)
     try:
         os.symlink('versions/'+destination.name,next_link);os.replace(next_link,current)

@@ -36,7 +36,7 @@ function Get-TasteDevMsiMetadata([string]$Id, $Releases) {
     return [pscustomobject]@{Id=$Id;Version=$version;Name=[string]$asset.name;Url=$uri.AbsoluteUri;Sha256=([string]$asset.digest).Substring(7);Bytes=[long]$asset.size}
 }
 function Assert-TasteDevFile([string]$Path, $Metadata) {
-    $item = Get-Item -LiteralPath $Path -Force
+    $item = Get-Item -LiteralPath $Path
     if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Linked installer file.' }
     if ($item.Length -ne $Metadata.Bytes -or (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() -cne $Metadata.Sha256) { throw 'MSI byte size or SHA256 mismatch.' }
     $signature = Get-AuthenticodeSignature -LiteralPath $Path
@@ -145,7 +145,7 @@ foreach ($item in $metadata) {
     Assert-TasteDevNotRunning $item.Id
     $directory = Join-Path $env:LOCALAPPDATA "TASTEDEV/Installer/$($item.Id)/$($item.Version)/$($item.Sha256)"
     for ($parent=$directory; $parent; $parent=Split-Path $parent -Parent) {
-        if ((Test-Path -LiteralPath $parent) -and ((Get-Item -LiteralPath $parent -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Linked installer cache.' }
+        if ((Test-Path -LiteralPath $parent) -and ((Get-Item -LiteralPath $parent).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Linked installer cache.' }
     }
     [void][IO.Directory]::CreateDirectory($directory)
     $msi = Join-Path $directory $item.Name
