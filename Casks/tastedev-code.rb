@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-code" do
-  version "0.2.41"
-  sha256 "7ffe7f52a5fe2db927f9d6a8d62cf2dabefade101b5fd111aadebfbfc858a973"
+  version "0.2.42"
+  sha256 "8268a423ddaaab566a621e406a7fb3d78bb509ee4d588889e4228847900b24ce"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/code-v0.2.41/tastedev-code-0.2.41-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/code-v0.2.42/tastedev-code-0.2.42-macos-arm64.dmg"
   name "TASTECODE"
   desc "TASTECODE desktop application"
   homepage "https://tastedev.net/products/code"
