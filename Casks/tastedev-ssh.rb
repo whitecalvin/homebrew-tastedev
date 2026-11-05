@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-ssh" do
-  version "0.2.77"
-  sha256 "a3c792afeb1258d94180162e883fe1db0bea43a5169f401ce445c39564479034"
+  version "0.2.78"
+  sha256 "1673d1c09c7c55dd1f42349fdf7da220edde108a4d4825fefb6893444e49a358"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/ssh-v0.2.77/tastedev-ssh-0.2.77-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/ssh-v0.2.78/tastedev-ssh-0.2.78-macos-arm64.dmg"
   name "TASTESSH"
   desc "TASTESSH desktop application"
   homepage "https://tastedev.net/products/ssh"
