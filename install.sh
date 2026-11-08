@@ -12,7 +12,6 @@ TASTEDEV macOS / Linux installer
   curl -fsSL https://packages.tastedev.net/install.sh | sh -s -- files ftp --yes
 Options: --list  --all  --update  --user  --yes  --dry-run  --no-bootstrap  --help
 macOS: Apple Silicon, Homebrew Cask. Linux: x86_64, APT / DNF / YUM / Zypper.
-Raspberry Pi (Linux aarch64): cad code files ftp ssh zip, APT (Raspberry Pi OS · Debian · Ubuntu).
 Run again to install missing products and update older installed versions.
 --update selects installed products only (all supported products if none specified).
 --user: supported products; macOS ~/Applications, Linux ~/.local/opt, without system package managers.
@@ -20,8 +19,6 @@ HELP
 }
 mac_products='cad code etl files ftp geo mail remote ssh studio zip'
 linux_products='cad code etl files ftp geo mail remote ssh studio zip'
-# Raspberry Pi (Linux aarch64, release tools 1.0.252): published as arm64 packages in the same APT repository.
-linux_arm64_products='cad code files ftp ssh zip'
 all_products='cad code etl fast files ftp geo mail office remote ssh studio zip'
 contains() { case " $1 " in *" $2 "*) return 0 ;; *) return 1 ;; esac; }
 normalize() {
@@ -296,11 +293,10 @@ with open(lock_path,'a') as lock:
     if len(releases)!=1:raise RuntimeError('Expected one public release')
     r=releases[0];match=re.fullmatch(r'(?:taste)?'+product+r'-v(\d+\.\d+\.\d+)',r.get('tag_name',''))
     if not match or r.get('draft') is not False or r.get('prerelease') is not False:raise RuntimeError('Not a stable product release')
-    machine=os.uname().machine;linux_arch='aarch64' if machine in ('aarch64','arm64') else 'x86_64'
-    version=match[1];package_base='tastedev-'+product+'-'+version+'-linux-'+linux_arch
+    version=match[1];package_base='tastedev-'+product+'-'+version+'-linux-x86_64'
     name=package_base+('.tar.gz' if archive_product else '.AppImage')
     assets=[a for a in r.get('assets',[]) if a.get('name')==name]
-    if len(assets)!=1:raise RuntimeError('No unique published Linux '+linux_arch+' package for '+product)
+    if len(assets)!=1:raise RuntimeError('No unique published Linux x64 package for '+product)
     a=assets[0];sha=a.get('digest','');size=a.get('size')
     url='https://github.com/whitecalvin/tastedev-releases/releases/download/'+r['tag_name']+'/'+name
     if a.get('browser_download_url')!=url or not re.fullmatch('sha256:[a-f0-9]{64}',sha) or type(size)!=int or size<=0:raise RuntimeError('Invalid AppImage metadata')
@@ -531,8 +527,6 @@ install_linux() {
     *' opensuse '*|*' opensuse-leap '*|*' opensuse-tumbleweed '*|*' sles '*|*' suse '*) manager=zypper ;;
     *) fail "Unsupported distribution: $ID. APT or RPM repository support is required." ;;
   esac
-  # Raspberry Pi (aarch64) packages are in the APT repository only.
-  if [ "$arch" != x86_64 ] && [ "$manager" != apt ]; then fail "TASTEDEV packages for $arch are APT only (Raspberry Pi OS, Debian, Ubuntu). Use --user for a personal installation."; fi
   packages=
   for product in $products; do
     if [ "$update_only" = true ]; then
@@ -554,8 +548,7 @@ install_linux() {
     [ ! -L /etc/apt/sources.list.d/tastedev.list ] || fail 'Linked TASTEDEV source path.'
     download 'https://packages.tastedev.net/tastedev-archive-keyring.gpg' "$work/key"
     verify_key '9518CCB64C93F5A28C5FE160A96150ECE089E27B'
-    deb_arch=amd64; [ "$arch" != aarch64 ] || deb_arch=arm64
-    printf '%s\n' "deb [arch=$deb_arch signed-by=/usr/share/keyrings/tastedev-archive-keyring.gpg] https://packages.tastedev.net stable main" >"$work/tastedev.list"
+    printf '%s\n' 'deb [arch=amd64 signed-by=/usr/share/keyrings/tastedev-archive-keyring.gpg] https://packages.tastedev.net stable main' >"$work/tastedev.list"
     as_root install -d -m 755 /usr/share/keyrings /etc/apt/sources.list.d
     as_root install -m 644 "$work/key" /usr/share/keyrings/tastedev-archive-keyring.gpg
     as_root install -m 644 "$work/tastedev.list" /etc/apt/sources.list.d/tastedev.list
@@ -607,7 +600,7 @@ main() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --help|-h) usage; return ;;
-      --list) say "macOS arm64: $mac_products"; say "Linux x86_64: $linux_products"; say "Linux aarch64 (Raspberry Pi): $linux_arm64_products"; say 'Not published through these repositories: fast office'; return ;;
+      --list) say "macOS arm64: $mac_products"; say "Linux x86_64: $linux_products"; say 'Not published through these repositories: fast office'; return ;;
       --yes|-y) yes=true ;;
       --dry-run) dry_run=true ;;
       --all) select_all=true ;;
@@ -623,9 +616,8 @@ main() {
   case "$os:$arch" in
     Darwin:arm64) available=$mac_products ;;
     Linux:x86_64) available=$linux_products ;;
-    Linux:aarch64) available=$linux_arm64_products ;;
     Darwin:*) fail 'Published macOS packages require Apple Silicon (arm64). Use a native terminal outside Rosetta.' ;;
-    Linux:*) fail 'Published Linux packages require x86_64 or aarch64 (Raspberry Pi).' ;;
+    Linux:*) fail 'Published Linux repository packages currently require x86_64.' ;;
     *) fail 'This installer supports macOS and Linux.' ;;
   esac
   if [ "$select_all" = true ]; then products=$available; fi
