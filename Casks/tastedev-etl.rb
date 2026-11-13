@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-etl" do
-  version "0.2.22"
-  sha256 "41cdde81433855305f8566aa7fb4e31cb4f84ce7d401ba52f0c46345d904b8d0"
+  version "0.2.23"
+  sha256 "4eeb63bce975e62751f31d17bc3af6dafab5cae645ef0ac91a15d8c6874ddf4a"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/etl-v0.2.22/tastedev-etl-0.2.22-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/etl-v0.2.23/tastedev-etl-0.2.23-macos-arm64.dmg"
   name "TASTEETL"
   desc "TASTEETL desktop application"
   homepage "https://tastedev.net/products/etl"
