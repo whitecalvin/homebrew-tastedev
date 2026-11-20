@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-cad" do
-  version "0.3.12"
-  sha256 "3e3f6e98e6a53823859d668a1d996cdf10046714ae799e4ce0c4da04e03aaae9"
+  version "0.3.13"
+  sha256 "d71a319e971d8a2ad6e9b167a1a10459f1ddc3b7fc39de95e42d6f172d258795"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/cad-v0.3.12/tastedev-cad-0.3.12-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/cad-v0.3.13/tastedev-cad-0.3.13-macos-arm64.dmg"
   name "TASTECAD"
   desc "TASTECAD desktop application"
   homepage "https://tastedev.net/products/cad"
