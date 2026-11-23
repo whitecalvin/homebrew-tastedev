@@ -18,11 +18,11 @@ Run again to install missing products and update older installed versions.
 --user: supported products; macOS ~/Applications, Linux ~/.local/opt, without system package managers.
 HELP
 }
-mac_products='cad code etl files ftp geo mail remote ssh stock studio zip'
-linux_products='cad code etl files ftp geo mail remote ssh stock studio zip'
+mac_products='cad code etl files ftp geo mail remote ssh stock studio winm zip'
+linux_products='cad code etl files ftp geo mail remote ssh stock studio winm zip'
 # Raspberry Pi (Linux aarch64, release tools 1.0.252): published as arm64 packages in the same APT repository.
 linux_arm64_products='cad code files ftp ssh zip'
-all_products='cad code etl fast files ftp geo mail office remote ssh stock studio zip'
+all_products='cad code etl fast files ftp geo mail office remote ssh stock studio winm zip'
 contains() { case " $1 " in *" $2 "*) return 0 ;; *) return 1 ;; esac; }
 normalize() {
   value=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')
@@ -163,7 +163,7 @@ function run(args) {
   const releases=Array.isArray(response)?response:[response];
   if(releases.length!==1)throw Error('Expected one public release');
   const id=args[1]||'remote';
-  if(!/^(cad|code|etl|files|ftp|geo|mail|remote|ssh|stock|studio|zip)$/.test(id))throw Error('Unsupported product');
+  if(!/^(cad|code|etl|files|ftp|geo|mail|remote|ssh|stock|studio|winm|zip)$/.test(id))throw Error('Unsupported product');
   const r=releases[0];
   if(r.draft!==false || r.prerelease!==false || !new RegExp('^(?:taste)?'+id+'-v\\d+\\.\\d+\\.\\d+$').test(r.tag_name))throw Error('Not a stable product release');
   const version=r.tag_name.split('-v')[1];
@@ -242,7 +242,7 @@ install_linux_user() {
 import fcntl, hashlib, json, os, pathlib, re, shlex, subprocess, sys, tempfile, uuid, tarfile, posixpath, shutil
 home=pathlib.Path(sys.argv[1]); work=pathlib.Path(sys.argv[2]); update_only=sys.argv[3]=='true'
 product=sys.argv[4] if len(sys.argv)>4 else 'remote'
-if product not in 'cad code etl files ftp geo mail remote ssh stock studio zip'.split():raise RuntimeError('Unsupported personal product')
+if product not in 'cad code etl files ftp geo mail remote ssh stock studio winm zip'.split():raise RuntimeError('Unsupported personal product')
 brand='TASTE'+product.upper()
 archive_product=product in ('etl','geo','mail','studio')
 command={'geo':'tastegeo-server','mail':'tastemail-server'}.get(product,'taste'+product)
