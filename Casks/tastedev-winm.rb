@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-winm" do
-  version "0.1.8"
-  sha256 "6a66f78ed9d65b9e48ab7bf213a769f69f16bb5312684db18a2b524a2be7697b"
+  version "0.1.9"
+  sha256 "cdd7eb9b38fca7ea7ece297405a3dfc069326bfb310c54eb199c62779ea697db"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/winm-v0.1.8/tastedev-winm-0.1.8-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/winm-v0.1.9/tastedev-winm-0.1.9-macos-arm64.dmg"
   name "TASTEWINM"
   desc "TASTEWINM desktop application"
   homepage "https://tastedev.net/products/winm"
