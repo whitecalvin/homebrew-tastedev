@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-stock" do
-  version "0.1.3"
-  sha256 "4278ea1ed32073f5cea05f0fdd8250d98bc4db91a0bdcd90950ccc71165ef3f2"
+  version "0.1.4"
+  sha256 "13bbd791261ae46781e7026b5817988985c793da36b7f9ad08c505f969a1ea77"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/stock-v0.1.3/tastedev-stock-0.1.3-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/stock-v0.1.4/tastedev-stock-0.1.4-macos-arm64.dmg"
   name "TASTESTOCK"
   desc "TASTESTOCK desktop application"
   homepage "https://tastedev.net/products/stock"
