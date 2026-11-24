@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-ftp" do
-  version "0.3.12"
-  sha256 "b1c757574d9adc0e5e77f306eed7ea6b780e4a8e013eb521386c8665b36a512e"
+  version "0.3.13"
+  sha256 "058b9c01893f46910033dd2b9b707086b04fcb73abb3352ae4531809da370dd4"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/ftp-v0.3.12/tastedev-ftp-0.3.12-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/ftp-v0.3.13/tastedev-ftp-0.3.13-macos-arm64.dmg"
   name "TASTEFTP"
   desc "TASTEFTP desktop application"
   homepage "https://tastedev.net/products/ftp"
