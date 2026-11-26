@@ -1,9 +1,9 @@
 # Generated from an existing public DMG; do not edit hashes manually.
 cask "tastedev-files" do
-  version "0.3.8"
-  sha256 "61b57bac717f6e10a48dac14d6026c8dd05f952891271ac98989291d51cfc55b"
+  version "0.3.9"
+  sha256 "d166630d971cce044290e09a5825f8ad26c32f17dcd14df3083e81d3c3db75b0"
 
-  url "https://github.com/whitecalvin/tastedev-releases/releases/download/files-v0.3.8/tastedev-files-0.3.8-macos-arm64.dmg"
+  url "https://github.com/whitecalvin/tastedev-releases/releases/download/files-v0.3.9/tastedev-files-0.3.9-macos-arm64.dmg"
   name "TASTEFILES"
   desc "TASTEFILES desktop application"
   homepage "https://tastedev.net/products/files"
